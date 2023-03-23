@@ -2,10 +2,13 @@ import 'dart:io';
 
 class DotEnvService {
   final Map<String, String> _map = {};
-  static DotEnvService instance = DotEnvService._();
 
-  DotEnvService._() {
-    _init();
+  DotEnvService({Map<String, String>? mocks}) {
+    if (mocks == null) {
+      _init();
+    } else {
+      _map.addAll(mocks);
+    }
   }
 
   void _init() {
@@ -14,7 +17,7 @@ class DotEnvService {
 
     for (var line in envText.split('\n')) {
       final lineBreak = line.split('=');
-      _map[lineBreak[0]] = lineBreak[1];
+      _map[lineBreak[0]] = lineBreak[1].trim();
     }
   }
 
